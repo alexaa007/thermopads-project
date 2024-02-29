@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Thermopads</title>
+        <link rel="stylesheet" type="text/css" href="/styles/form.css" />
+        <script defer src="/form.js"></script>
+        <script></script>
+    </head>
+    <body>
+        <div id="header"></div>
+        <div id="content">
+            <div id="heading"></div>
+            <div id="fields">
+                <form action="/report" method="post">
+                    <div class="field">
+                        <label for="something1">Something 1:</label>
+                        <select id="something1" name="something_1">
+                            <option value="none">--NONE--</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="something2">Something 1:</label>
+                        <select id="something2" name="something_2">
+                            <option value="none">--NONE--</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                    <button id="generate-report" onclick="logValues()">
+                        Generate Report
+                    </button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
