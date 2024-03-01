@@ -1,7 +1,6 @@
 import express from "express";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import ejs from "ejs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,7 +22,7 @@ app.listen(port, () => {
     console.log(`Server:${port}`);
 });
 
-app.get("/form", (req, res) => {
+app.get("/form", (_, res) => {
     res.render("form");
 });
 
