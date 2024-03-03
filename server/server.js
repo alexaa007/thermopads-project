@@ -1,6 +1,7 @@
 import express from "express";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { re } from "mathjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,7 +43,7 @@ app.post("/report", (req, res) => {
     const minAmb = req.body.min_amb;
     const maxAmb = req.body.max_amb;
     const designMargin = req.body.design_margin;
-    console.log("inputs:\ni1: " + tracerModel + "\ni2: " + lineOD);
+    const grouping = req.body.grouping;
     res.render("report", {
         tracerModel,
         lineSize,
@@ -59,6 +60,7 @@ app.post("/report", (req, res) => {
         minAmb,
         maxAmb,
         designMargin,
+        grouping,
     });
 });
 
@@ -78,11 +80,12 @@ app.post("/send-results", (req, res) => {
     const minAmb = req.body.minAmb;
     const maxAmb = req.body.maxAmb;
     const designMargin = req.body.designMargin;
+    const grouping = req.body.grouping;
 
     const thermalConductivity = req.body.thermalConductivity;
     const heatLoss = req.body.heatLoss;
     const hl230v = req.body.hl230v;
-    const tracerOutput = req.body.tracerOutput;
+    const tracerOutputAtNegative = req.body.tracerOutputAtNegative;
     const spiralRatio = req.body.spiralRatio;
     const tracerForValves = req.body.tracerForValves;
     const tracerForFlanges = req.body.tracerForFlanges;
@@ -93,13 +96,51 @@ app.post("/send-results", (req, res) => {
     const operationalCurrent = req.body.operationalCurrent;
     const startupLoad = req.body.startupLoad;
     const startupCurrent = req.body.startupCurrent;
+    const alFoil = req.body.alFoil;
+    const fiberGlass = req.body.fiberGlass;
+    const tprIter = req.body.tprIter;
+    const tmeanIter = req.body.tmeanIter;
+    const kValIter = req.body.kValIter;
+    const sheathTemp = req.body.sheathTemp;
     console.log(
         "inputs:",
         tracerModel,
         lineSize,
+        lineOD,
+        pipeLength,
+        insulationThickness,
+        maintainenceTemp,
+        operationalTemp,
+        designTemp,
+        valveCount,
+        flangeCount,
+        supportCount,
+        pumpCount,
+        minAmb,
+        maxAmb,
+        designMargin,
+        grouping,
         "\noutputs:",
         thermalConductivity,
-        heatLoss
+        heatLoss,
+        hl230v,
+        tracerOutputAtNegative,
+        spiralRatio,
+        tracerForValves,
+        tracerForFlanges,
+        tracerForSupports,
+        tracerForPumps,
+        tracerLength,
+        operatingLoad,
+        operationalCurrent,
+        startupLoad,
+        startupCurrent,
+        alFoil,
+        fiberGlass,
+        tprIter,
+        tmeanIter,
+        kValIter,
+        sheathTemp
     );
     res.json({ success: true, message: "server push successful" });
 });

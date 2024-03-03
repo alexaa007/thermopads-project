@@ -131,6 +131,8 @@ data = [
 ];
 
 // Input Attributes
+const tRA = 230;
+const tOA = 218.5;
 const tracerModel = document.currentScript.getAttribute("tracerModel");
 console.log(tracerModel);
 const lineSize = parseFloat(document.currentScript.getAttribute("lineSize"));
@@ -165,6 +167,7 @@ const maxAmb = parseFloat(document.currentScript.getAttribute("maxAmb"));
 const designMargin = parseFloat(
     document.currentScript.getAttribute("designMargin")
 );
+const grouping = parseFloat(document.currentScript.getAttribute("grouping"));
 
 // Output Calculations
 //Lookup Calculations
@@ -192,52 +195,117 @@ cVal = entry.c;
 
 //Thermal Conductivity
 const thermalConductivity =
-    ((0.04422 - 0.052) / 50) * (50 - (maintainenceTemp + 5) / 2) + 0.043;
+    Math.round(
+        (((0.04422 - 0.052) / 50) * (50 - (maintainenceTemp + 5) / 2) + 0.043) *
+            1000
+    ) / 1000;
 
 //Heat Loss
 const heatLoss =
-    (2 *
-        3.142 *
-        thermalConductivity *
-        (1 + designMargin / 100) *
-        (maintainenceTemp - minAmb)) /
-    Math.log((lineOD + 2 * insulationThickness) / lineOD);
+    Math.round(
+        ((2 *
+            3.142 *
+            thermalConductivity *
+            (1 + designMargin / 100) *
+            (maintainenceTemp - minAmb)) /
+            Math.log((lineOD + 2 * insulationThickness) / lineOD)) *
+            10
+    ) / 10;
 
 //@230V
-const hl230v = mVal * maintainenceTemp + cVal; //Fix this
+const hl230v = Math.round((mVal * maintainenceTemp + cVal) * 10) / 10; //Fix this
 
 //TRACER OUTPUT @ Neg Tol
-const tracerOutput = 0;
+const checkingVal = tracerModel;
+var substringW10 = checkingVal.substring(0, 3);
+let result;
+if (substringW10 === "HTT" || substringW10 === "CTL") {
+    result = Math.pow(tRA / tOA, 2);
+} else {
+    result = 0.9;
+}
+
+const tracerOutputAtNegative = Math.round(hl230v * result * 10) / 10;
 
 //Spiral Ratio
-const spiralRatio = 0;
+const ratio = heatLoss / tracerOutputAtNegative;
+
+const spiralRatio =
+    ratio < 1 ? 1 : ratio < 2 ? Math.ceil(ratio * 10) / 10 : Math.ceil(ratio);
 
 //Tracer for Valves
-const tracerForValves = 0;
+let calculation1 = valveCount * (heatLoss / tracerOutputAtNegative) * 1.5;
+let calculation2 = valveCount * (heatLoss / tracerOutputAtNegative) * 3;
+
+const tracerForValves = Math.round(lineSize <= 8 ? calculation1 : calculation2);
 
 //Tracer for Flanges
-const tracerForFlanges = 0;
+calculation1 = flangeCount * (heatLoss / tracerOutputAtNegative) * 0.8;
+calculation2 = flangeCount * (heatLoss / tracerOutputAtNegative) * 1;
+
+const tracerForFlanges = Math.round(
+    lineSize <= 8 ? calculation1 : calculation2,
+    2
+);
 
 //Tracer for Supports
-const tracerForSupports = 0;
+calculation1 = supportCount * (heatLoss / tracerOutputAtNegative) * 0.3;
+calculation2 = supportCount * (heatLoss / tracerOutputAtNegative) * 0.5;
+
+const tracerForSupports = Math.round(
+    lineSize <= 8 ? calculation1 : calculation2,
+    2
+);
 
 //Tracer for Pumps
-const tracerForPumps = 0;
+calculation1 = pumpCount * (heatLoss / tracerOutputAtNegative) * 1.5;
+calculation2 = pumpCount * (heatLoss / tracerOutputAtNegative) * 3;
+
+const tracerForPumps = Math.round(
+    lineSize <= 8 ? calculation1 : calculation2,
+    2
+);
 
 //Tracer Length
-const tracerLength = 0;
-
+const tracerLength = Math.ceil(
+    pipeLength * spiralRatio +
+        tracerForValves +
+        tracerForFlanges +
+        tracerForSupports +
+        tracerForPumps,
+    1
+);
 //Operating Load
-const operatingLoad = 0;
+const operatingLoad =
+    Math.round(((tracerLength * tracerOutputAtNegative) / 1000) * 10) / 10;
 
 //Operational Current
-const operationalCurrent = 0;
+const operationalCurrent =
+    Math.round(((operatingLoad * 1000) / 230) * 100) / 100;
 
 //Startup Load
-const startupLoad = 0;
+const startupLoad = (Math.ceil(mVal * minAmb + cVal, 1) * tracerLength) / 1000;
 
-//Tracer for Startup Current
-const startupCurrent = (startupLoad * 1000) / 230;
+//Startup Current
+const startupCurrent = Math.round(((startupLoad * 1000) / 230) * 10) / 10;
+
+//Aluminium Foil Tape
+const alFoil = Math.round(tracerLength * 1.1);
+
+//Fiber Glass
+const fiberGlass = 0;
+
+//Tpr Iter
+const tprIter = 0;
+
+//Tmean Iter
+const tmeanIter = 0;
+
+//kVal iter
+const kValIter = 0;
+
+//Sheath Temp
+const sheathTemp = 0;
 
 //Div Template
 const createVariableDiv = (variableName, variableValue, className) => {
@@ -267,7 +335,7 @@ const inputContainerDiv = document.createElement("div");
 inputContainerDiv.style.display = "inline-block";
 inputContainerDiv.style.verticalAlign = "top";
 inputContainerDiv.style.width = "35%";
-inputContainerDiv.style.height = "800px";
+inputContainerDiv.style.height = "1000px";
 inputContainerDiv.style.margin = "50px 50px 50px 50px";
 inputContainerDiv.style.padding = "20px 50px 50px 50px";
 inputContainerDiv.style.border = "1px solid #ccc";
@@ -277,6 +345,8 @@ const inputHeading = document.createElement("h2");
 inputHeading.textContent = "Input";
 inputContainerDiv.appendChild(inputHeading);
 
+appendInputVariableDiv("Tracer Rated Voltage", tRA);
+appendInputVariableDiv("Tracer Output At", tOA);
 appendInputVariableDiv("Tracer Model", tracerModel);
 appendInputVariableDiv("Line Size", lineSize);
 appendInputVariableDiv("Line OD", lineOD);
@@ -292,13 +362,14 @@ appendInputVariableDiv("No. of Pumps", pumpCount);
 appendInputVariableDiv("Minimum Ambiant Temperature", minAmb);
 appendInputVariableDiv("Maximum Ambiant Temperature", maxAmb);
 appendInputVariableDiv("Design Margin", designMargin);
+appendInputVariableDiv("Grouping", grouping);
 
 document.body.appendChild(inputContainerDiv);
 
 //Div for Outputs
 const outputContainerDiv = document.createElement("div");
 outputContainerDiv.style.display = "inline-block";
-outputContainerDiv.style.height = "800px";
+outputContainerDiv.style.height = "1000px";
 outputContainerDiv.style.verticalAlign = "top";
 outputContainerDiv.style.width = "35%";
 outputContainerDiv.style.margin = "50px 50px 50px 50px";
@@ -322,7 +393,10 @@ outputContainerDiv.appendChild(outputHeading);
 appendOutputVariableDiv("Thermal Conductivity", thermalConductivity);
 appendOutputVariableDiv("Heat Loss", heatLoss);
 appendOutputVariableDiv("Heat Loss @230V", hl230v);
-appendOutputVariableDiv("Tracer output", tracerOutput);
+appendOutputVariableDiv(
+    "Tracer output at negative Voltage",
+    tracerOutputAtNegative
+);
 appendOutputVariableDiv("Spiral Output", spiralRatio);
 appendOutputVariableDiv("Tracer For Valves", tracerForValves);
 appendOutputVariableDiv("Tracer For Flanges", tracerForFlanges);
@@ -333,6 +407,12 @@ appendOutputVariableDiv("Operating Load", operatingLoad);
 appendOutputVariableDiv("Operational Current", operationalCurrent);
 appendOutputVariableDiv("Startup Load", startupLoad);
 appendOutputVariableDiv("Startup Current", startupCurrent);
+appendOutputVariableDiv("Aluminium Foil Tape(m)", alFoil);
+appendOutputVariableDiv("Fiber Glass Tape(m)", fiberGlass);
+appendOutputVariableDiv("Tpr Value(Iterative)", tprIter);
+appendOutputVariableDiv("Tmean Value(Iterative)", tmeanIter);
+appendOutputVariableDiv("k Value(Iterative)", kValIter);
+appendOutputVariableDiv("Sheath Temperature", sheathTemp);
 
 document.body.appendChild(outputContainerDiv);
 
@@ -359,10 +439,11 @@ function sendResultsToServer() {
             minAmb,
             maxAmb,
             designMargin,
+            grouping,
             thermalConductivity,
             heatLoss,
             hl230v,
-            tracerOutput,
+            tracerOutputAtNegative,
             spiralRatio,
             tracerForValves,
             tracerForFlanges,
@@ -373,6 +454,12 @@ function sendResultsToServer() {
             operationalCurrent,
             startupLoad,
             startupCurrent,
+            alFoil,
+            fiberGlass,
+            tprIter,
+            tmeanIter,
+            kValIter,
+            sheathTemp,
         }),
     })
         .then((response) => response.json())
