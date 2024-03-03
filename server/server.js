@@ -27,6 +27,7 @@ app.get("/form", (_, res) => {
 });
 
 app.post("/report", (req, res) => {
+    const tracerModel = req.body.tracer_model;
     const lineSize = req.body.line_size;
     const lineOD = req.body.line_od;
     const pipeLength = req.body.pipe_length;
@@ -41,8 +42,9 @@ app.post("/report", (req, res) => {
     const minAmb = req.body.min_amb;
     const maxAmb = req.body.max_amb;
     const designMargin = req.body.design_margin;
-    console.log("inputs:\ni1: " + lineSize + "\ni2: " + lineOD);
+    console.log("inputs:\ni1: " + tracerModel + "\ni2: " + lineOD);
     res.render("report", {
+        tracerModel,
         lineSize,
         lineOD,
         pipeLength,
