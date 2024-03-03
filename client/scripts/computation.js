@@ -1,8 +1,38 @@
-const input1 = parseFloat(document.currentScript.getAttribute("something1"));
-const input2 = parseFloat(document.currentScript.getAttribute("something2"));
+const lineSize = parseFloat(document.currentScript.getAttribute("lineSize"));
+const lineOD = parseFloat(document.currentScript.getAttribute("lineOD"));
+const pipeLength = parseFloat(
+    document.currentScript.getAttribute("pipeLength")
+);
+const insulationThickness = parseFloat(
+    document.currentScript.getAttribute("insulationThickness")
+);
+const maintainenceTemp = parseFloat(
+    document.currentScript.getAttribute("maintainenceTemp")
+);
+const operationalTemp = parseFloat(
+    document.currentScript.getAttribute("operationalTemp")
+);
+const designTemp = parseFloat(
+    document.currentScript.getAttribute("designTemp")
+);
+const valveCount = parseFloat(
+    document.currentScript.getAttribute("valveCount")
+);
+const flangeCount = parseFloat(
+    document.currentScript.getAttribute("flangeCount")
+);
+const supportCount = parseFloat(
+    document.currentScript.getAttribute("supportCount")
+);
+const pumpCount = parseFloat(document.currentScript.getAttribute("pumpCount"));
+const minAmb = parseFloat(document.currentScript.getAttribute("minAmb"));
+const maxAmb = parseFloat(document.currentScript.getAttribute("maxAmb"));
+const designMargin = parseFloat(
+    document.currentScript.getAttribute("designMargin")
+);
 
-const result1 = input1 + input2;
-const result2 = input1 * input2;
+const result1 = lineSize + lineOD;
+const result2 = pipeLength * insulationThickness;
 
 const paragraph = document.createElement("p");
 

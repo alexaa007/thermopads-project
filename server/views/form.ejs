@@ -15,27 +15,133 @@
             <div id="fields">
                 <form action="/report" method="post">
                     <div class="field">
-                        <label for="something1">Something 1:</label>
-                        <select id="something1" name="something_1">
+                        <label for="lineSize">Line Size(Inches):</label>
+                        <select id="lineSize" name="line_size">
                             <option value="none">--NONE--</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
+                            <option value="0.5">0.5</option>
+                            <option value="0.8">0.8</option>
+                            <option value="1.0">1.0</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2.0">2.0</option>
+                            <option value="3.0">3.0</option>
+                            <option value="4.0">4.0</option>
+                            <option value="6.0">6.0</option>
+                            <option value="8.0">8.0</option>
+                            <option value="10.0">10.0</option>
+                            <option value="12.0">16.0</option>
                         </select>
                     </div>
+                    <br>
                     <div class="field">
-                        <label for="something2">Something 1:</label>
-                        <select id="something2" name="something_2">
+                        <label for="lineOD">Line OD(mm):</label>
+                        <input type="text" id="lineOD" name="line_od" />
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="pipeLength">Pipe Length(m):</label>
+                        <input type="text" id="pipeLength" name="pipe_length" />
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="insulationThickness"
+                            >Insulation Thickness(mm):</label
+                        >
+                        <select
+                            id="insulationThickness"
+                            name="insulation_thickness"
+                        >
                             <option value="none">--NONE--</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
+                            <option value="50.0">50.0</option>
+                            <option value="30.0">30.0</option>
                         </select>
                     </div>
+                    <br>
+                    <div class="field">
+                        <label for="maintainenceTemp"
+                            >Maintainence Temperature(°C):</label
+                        >
+                        <select id="maintainenceTemp" name="maintainence_temp">
+                            <option value="none">--NONE--</option>
+                            <option value="5">5</option>
+                            <option value="95">95</option>
+                            <option value="110">110</option>
+                            <option value="120">120</option>
+                            <option value="125">125</option>
+                            <option value="135">135</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="operationalTemp"
+                            >Operational Temperature(°C):</label
+                        >
+                        <input id="operationalTemp" name="operational_temp"></input>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="designTemp"
+                            >Design Temperature(°C):</label
+                        >
+                        <input id="designTemp" name="design_temp"></input>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="valveCount"
+                            >No. of Valves: </label
+                        >
+                        <input id="valveCount" name="valve_count"></input>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="flangeCount"
+                            >No. of Flanges:</label
+                        >
+                        <input id="flangeCount" name="flange_count"></input>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="supportCount"
+                            >No. of Supports:</label
+                        >
+                        <input id="supportCount" name="support_count"></input>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="pumpCount"
+                            >No. of Pumps:</label
+                        >
+                        <select id="pumpCount" name="pump_count">
+                            <option value="0">0</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="minAmb"
+                            >Minimum Ambiant Temperature(°C):</label
+                        >
+                        <select id="minAmb" name="min_amb">
+                            <option value="-36.0">-36.0</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="maxAmb"
+                            >Minimum Ambiant Temperature(°C):</label
+                        >
+                        <select id="maxAmb" name="max_amb">
+                            <option value="45.0">45.0</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="field">
+                        <label for="designMargin"
+                            >Design Margin:</label
+                        >
+                        <select id="designMargin" name="design_margin">
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <br>
                     <button id="generate-report" onclick="logValues()">
                         Generate Report
                     </button>

@@ -27,10 +27,37 @@ app.get("/form", (_, res) => {
 });
 
 app.post("/report", (req, res) => {
-    const something1Value = req.body.something_1;
-    const something2Value = req.body.something_2;
-    console.log("inputs:\ni1: " + something1Value + "\ni2: " + something2Value);
-    res.render("report", { something1Value, something2Value });
+    const lineSize = req.body.line_size;
+    const lineOD = req.body.line_od;
+    const pipeLength = req.body.pipe_length;
+    const insulationThickness = req.body.insulation_thickness;
+    const maintainenceTemp = req.body.maintainence_temp;
+    const operationalTemp = req.body.operational_temp;
+    const designTemp = req.body.design_temp;
+    const valveCount = req.body.valve_count;
+    const flangeCount = req.body.flange_count;
+    const supportCount = req.body.support_count;
+    const pumpCount = req.body.pump_count;
+    const minAmb = req.body.min_amb;
+    const maxAmb = req.body.max_amb;
+    const designMargin = req.body.design_margin;
+    console.log("inputs:\ni1: " + lineSize + "\ni2: " + lineOD);
+    res.render("report", {
+        lineSize,
+        lineOD,
+        pipeLength,
+        insulationThickness,
+        maintainenceTemp,
+        operationalTemp,
+        designTemp,
+        valveCount,
+        flangeCount,
+        supportCount,
+        pumpCount,
+        minAmb,
+        maxAmb,
+        designMargin,
+    });
 });
 
 app.post("/send-results", (req, res) => {
