@@ -1,42 +1,42 @@
 import { createConnection } from "mysql";
 
-function executeQuery(query) {
+function executeQuery(query, values) {
     const connection = createConnection({
-        host: "localhost", // Replace 'localhost' with your MySQL host
-        user: "root", // Replace 'your_username' with your MySQL username
-        password: "00000000", // Replace 'your_password' with your MySQL password
-        database: "mysql", // Replace 'your_database' with your MySQL database name
+        host: "localhost",
+        user: "root",
+        password: "00000000",
+        database: "thermopods",
     });
 
-    // Connect to the database
-    connection.connect((err) => {
-        if (err) {
-            console.error("Error connecting to database:", err);
-            return;
-        }
-        console.log("Connected to MySQL database");
+    return new Promise((resolve, reject) => {
+        connection.connect((err) => {
+            if (err) {
+                console.error("Error connecting to database:", err);
+                reject(err);
+                return;
+            }
+            console.log("Connected to MySQL database");
+        });
+
+        connection.query(query, values, (err, results, fields) => {
+            if (err) {
+                console.error("Error executing query:", err);
+                reject(err);
+                return;
+            }
+            console.log("Query executed successfully");
+
+            connection.end((err) => {
+                if (err) {
+                    console.error("Error closing connection:", err);
+                    reject(err);
+                    return;
+                }
+                console.log("Connection closed");
+                resolve({ results, fields });
+            });
+        });
     });
-
-    results = [];
-    fields = [];
-
-    connection.query(query, (err, results, fields) => {
-        if (err) {
-            console.error("Error executing query:", err);
-            return;
-        }
-        console.log("Query executed successfully");
-        results = results;
-        fields = fields;
-    });
-
-    connection.end((err) => {
-        if (err) {
-            console.error("Error closing connection:", err);
-            return;
-        }
-        console.log("Connection closed");
-    });
-
-    return { results, fields };
 }
+
+export default executeQuery;

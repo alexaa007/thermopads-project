@@ -2,6 +2,7 @@ import express from "express";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { re } from "mathjs";
+import executeQuery from "../server/utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -64,7 +65,9 @@ app.post("/report", (req, res) => {
     });
 });
 
-app.post("/send-results", (req, res) => {
+app.post("/send-results", async (req, res) => {
+    const tracerRatedVoltage = req.body.tRA;
+    const tracerOutputAt = req.body.tOA;
     const tracerModel = req.body.tracerModel;
     const lineSize = req.body.lineSize;
     const lineOD = req.body.lineOD;
@@ -104,6 +107,8 @@ app.post("/send-results", (req, res) => {
     const sheathTemp = req.body.sheathTemp;
     console.log(
         "inputs:",
+        tracerRatedVoltage,
+        tracerOutputAt,
         tracerModel,
         lineSize,
         lineOD,
@@ -142,5 +147,66 @@ app.post("/send-results", (req, res) => {
         kValIter,
         sheathTemp
     );
-    res.json({ success: true, message: "server push successful" });
+
+    const query = `
+        INSERT INTO thermopodae (
+            tracerRatedVoltage, tracerOutputAt, tracerModel, lineSize, lineOD, pipeLength, insulationThickness, 
+            maintainenceTemp, operationalTemp, designTemp, valveCount, flangeCount, 
+            supportCount, pumpCount, minAmb, maxAmb, designMargin, groupColumn,
+            thermalConductivity, heatLoss, hl230v, tracerOutputAtNegative, 
+            spiralRatio, tracerForValves, tracerForFlanges, tracerForSupports, 
+            tracerForPumps, tracerLength, operatingLoad, operationalCurrent, 
+            startupLoad, startupCurrent, alFoil, fiberGlass, tprIter, tmeanIter, 
+            kValIter, sheathTemp
+        ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    try {
+        const result = await executeQuery(query, [
+            tracerRatedVoltage,
+            tracerOutputAt,
+            tracerModel,
+            lineSize,
+            lineOD,
+            pipeLength,
+            insulationThickness,
+            maintainenceTemp,
+            operationalTemp,
+            designTemp,
+            valveCount,
+            flangeCount,
+            supportCount,
+            pumpCount,
+            minAmb,
+            maxAmb,
+            designMargin,
+            grouping,
+            thermalConductivity,
+            heatLoss,
+            hl230v,
+            tracerOutputAtNegative,
+            spiralRatio,
+            tracerForValves,
+            tracerForFlanges,
+            tracerForSupports,
+            tracerForPumps,
+            tracerLength,
+            operatingLoad,
+            operationalCurrent,
+            startupLoad,
+            startupCurrent,
+            alFoil,
+            fiberGlass,
+            tprIter,
+            tmeanIter,
+            kValIter,
+            sheathTemp,
+        ]);
+        res.json({ success: true, message: "Data inserted successfully" });
+    } catch (error) {
+        console.error("Error inserting data:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
 });

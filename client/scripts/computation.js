@@ -424,6 +424,8 @@ function sendResultsToServer() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
+            tRA,
+            tOA,
             tracerModel,
             lineSize,
             lineOD,
