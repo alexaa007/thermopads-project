@@ -333,8 +333,6 @@ appendOutputVariableDiv("Operating Load", operatingLoad);
 appendOutputVariableDiv("Operational Current", operationalCurrent);
 appendOutputVariableDiv("Startup Load", startupLoad);
 appendOutputVariableDiv("Startup Current", startupCurrent);
-appendOutputVariableDiv("Startup Current", startupCurrent);
-appendOutputVariableDiv("Startup Current", startupCurrent);
 
 document.body.appendChild(outputContainerDiv);
 
@@ -345,7 +343,37 @@ function sendResultsToServer() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ input1, input2, result1, result2 }),
+        body: JSON.stringify({
+            tracerModel,
+            lineSize,
+            lineOD,
+            pipeLength,
+            insulationThickness,
+            maintainenceTemp,
+            operationalTemp,
+            designTemp,
+            valveCount,
+            flangeCount,
+            supportCount,
+            pumpCount,
+            minAmb,
+            maxAmb,
+            designMargin,
+            thermalConductivity,
+            heatLoss,
+            hl230v,
+            tracerOutput,
+            spiralRatio,
+            tracerForValves,
+            tracerForFlanges,
+            tracerForSupports,
+            tracerForPumps,
+            tracerLength,
+            operatingLoad,
+            operationalCurrent,
+            startupLoad,
+            startupCurrent,
+        }),
     })
         .then((response) => response.json())
         .then((data) => console.log("Results logged on server:", data))

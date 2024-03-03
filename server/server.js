@@ -63,10 +63,43 @@ app.post("/report", (req, res) => {
 });
 
 app.post("/send-results", (req, res) => {
-    const input1 = req.body.input1;
-    const input2 = req.body.input2;
-    const result1 = req.body.result1;
-    const result2 = req.body.result2;
-    console.log("inputs:", input1, input2, "\noutputs:", result1, result2);
+    const tracerModel = req.body.tracerModel;
+    const lineSize = req.body.lineSize;
+    const lineOD = req.body.lineOD;
+    const pipeLength = req.body.pipeLength;
+    const insulationThickness = req.body.insulationThickness;
+    const maintainenceTemp = req.body.maintainenceTemp;
+    const operationalTemp = req.body.operationalTemp;
+    const designTemp = req.body.designTemp;
+    const valveCount = req.body.valveCount;
+    const flangeCount = req.body.flangeCount;
+    const supportCount = req.body.supportCount;
+    const pumpCount = req.body.pumpCount;
+    const minAmb = req.body.minAmb;
+    const maxAmb = req.body.maxAmb;
+    const designMargin = req.body.designMargin;
+
+    const thermalConductivity = req.body.thermalConductivity;
+    const heatLoss = req.body.heatLoss;
+    const hl230v = req.body.hl230v;
+    const tracerOutput = req.body.tracerOutput;
+    const spiralRatio = req.body.spiralRatio;
+    const tracerForValves = req.body.tracerForValves;
+    const tracerForFlanges = req.body.tracerForFlanges;
+    const tracerForSupports = req.body.tracerForSupports;
+    const tracerForPumps = req.body.tracerForPumps;
+    const tracerLength = req.body.tracerLength;
+    const operatingLoad = req.body.operatingLoad;
+    const operationalCurrent = req.body.operationalCurrent;
+    const startupLoad = req.body.startupLoad;
+    const startupCurrent = req.body.startupCurrent;
+    console.log(
+        "inputs:",
+        tracerModel,
+        lineSize,
+        "\noutputs:",
+        thermalConductivity,
+        heatLoss
+    );
     res.json({ success: true, message: "server push successful" });
 });
