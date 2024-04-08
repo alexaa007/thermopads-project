@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Report</title>
-        <link rel="stylesheet" type="text/css" href="/styles/form.css" />
-        <script
-            defer
-            src="/computation.js"
-            tracerModel="<%= tracerModel %>"
-            lineSize="<%= lineSize %>"
-            lineOD="<%= lineOD %>"
-            pipeLength="<%= pipeLength %>"
-            insulationThickness="<%= insulationThickness %>"
-            maintainenceTemp="<%= maintainenceTemp %>"
-            operationalTemp="<%= operationalTemp %>"
-            designTemp="<%= designTemp %>"
-            valveCount="<%= valveCount %>"
-            flangeCount="<%= flangeCount %>"
-            supportCount="<%= supportCount %>"
-            pumpCount="<%= pumpCount %>"
-            minAmb="<%= minAmb %>"
-            maxAmb="<%= maxAmb %>"
-            designMargin="<%= designMargin %>"
-            grouping="<%= grouping %>"
-        ></script>
-    </head>
-    <body>
-        <!-- <h1>Report Page</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report</title>
+    <link rel="stylesheet" type="text/css" href="/styles/form.css" />
+    <div class="box">
+      <img
+        src="/images/img1.png"
+        style="width: 40px; height: 40px; margin-left: 2%"
+      />
+      <h1 style="margin-left: 1%">Results</h1>
+    </div>
+    <h2 style="margin-left: 3%; margin-top: 2%">Status</h2>
+    <script
+      defer
+      src="/computation.js"
+      tracerModel="<%= tracerModel %>"
+      lineSize="<%= lineSize %>"
+      lineOD="<%= lineOD %>"
+      pipeLength="<%= pipeLength %>"
+      insulationThickness="<%= insulationThickness %>"
+      maintainenceTemp="<%= maintainenceTemp %>"
+      operationalTemp="<%= operationalTemp %>"
+      designTemp="<%= designTemp %>"
+      valveCount="<%= valveCount %>"
+      flangeCount="<%= flangeCount %>"
+      supportCount="<%= supportCount %>"
+      pumpCount="<%= pumpCount %>"
+      minAmb="<%= minAmb %>"
+      maxAmb="<%= maxAmb %>"
+      designMargin="<%= designMargin %>"
+      grouping="<%= grouping %>"
+    ></script>
+  </head>
+  <body>
+    <!-- <h1>Report Page</h1>
         <p>Tracer Model: <%= tracerModel %></p>
         <p>lineSize: <%= lineSize %></p>
         <p>lineOD: <%= lineOD %></p>
@@ -43,5 +51,5 @@
         <p>minAmb: <%= minAmb %></p>
         <p>maxAmb: <%= maxAmb %></p>
         <p>designMargin: <%= designMargin %></p> -->
-    </body>
+  </body>
 </html>

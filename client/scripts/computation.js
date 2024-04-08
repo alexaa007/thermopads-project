@@ -197,7 +197,7 @@ cVal = entry.c;
 const thermalConductivity =
     Math.round(
         (((0.04422 - 0.052) / 50) * (50 - (maintainenceTemp + 5) / 2) + 0.043) *
-            1000
+        1000
     ) / 1000;
 
 //Heat Loss
@@ -209,7 +209,7 @@ const heatLoss =
             (1 + designMargin / 100) *
             (maintainenceTemp - minAmb)) /
             Math.log((lineOD + 2 * insulationThickness) / lineOD)) *
-            10
+        10
     ) / 10;
 
 //@230V
@@ -269,10 +269,10 @@ const tracerForPumps = Math.round(
 //Tracer Length
 const tracerLength = Math.ceil(
     pipeLength * spiralRatio +
-        tracerForValves +
-        tracerForFlanges +
-        tracerForSupports +
-        tracerForPumps,
+    tracerForValves +
+    tracerForFlanges +
+    tracerForSupports +
+    tracerForPumps,
     1
 );
 //Operating Load
@@ -310,13 +310,16 @@ const sheathTemp = 0;
 //Div Template
 const createVariableDiv = (variableName, variableValue, className) => {
     const variableDiv = document.createElement("div");
-    variableDiv.style.margin = "5px 0px";
-    variableDiv.style.padding = "10px 10px 10px 10px";
+    // variableDiv.style.margin = "5px 0px";
+    // variableDiv.style.padding = "10px 10px 10px 10px";
     variableDiv.style.width = "100%";
-    variableDiv.style.border = "1px solid #ccc";
-    variableDiv.style.borderRadius = "5px";
-    variableDiv.style.boxSizing = "border-box";
-    variableDiv.textContent = `${variableName}: ${variableValue}\n`;
+    variableDiv.style.display = "flex";
+    variableDiv.style.flexDirection = "row";
+    variableDiv.style.justifyContent = "space-between";
+    // variableDiv.style.border = "1px solid #ccc";
+    // variableDiv.style.borderRadius = "5px";
+    // variableDiv.style.boxSizing = "border-box";
+    variableDiv.innerHTML = `<b><p>${variableName}</p></b> <p>${variableValue}</p>\n`;
     variableDiv.className = className; // Add the specified class
     return variableDiv;
 };
@@ -336,10 +339,11 @@ inputContainerDiv.style.display = "inline-block";
 inputContainerDiv.style.verticalAlign = "top";
 inputContainerDiv.style.width = "35%";
 inputContainerDiv.style.height = "1000px";
-inputContainerDiv.style.margin = "50px 50px 50px 50px";
-inputContainerDiv.style.padding = "20px 50px 50px 50px";
-inputContainerDiv.style.border = "1px solid #ccc";
-inputContainerDiv.style.borderRadius = "10px";
+inputContainerDiv.style.margin = "0px 50px 50px 50px";
+inputContainerDiv.style.fontSize = "18px";
+inputContainerDiv.style.padding = "0px 50px 50px 50px";
+// inputContainerDiv.style.border = "1px solid #ccc";
+// inputContainerDiv.style.borderRadius = "10px";
 
 const inputHeading = document.createElement("h2");
 inputHeading.textContent = "Input";
@@ -372,10 +376,11 @@ outputContainerDiv.style.display = "inline-block";
 outputContainerDiv.style.height = "1000px";
 outputContainerDiv.style.verticalAlign = "top";
 outputContainerDiv.style.width = "35%";
-outputContainerDiv.style.margin = "50px 50px 50px 50px";
-outputContainerDiv.style.padding = "20px 50px 50px 50px";
-outputContainerDiv.style.border = "1px solid #ccc";
-outputContainerDiv.style.borderRadius = "10px";
+outputContainerDiv.style.margin = "0px 50px 50px 50px";
+outputContainerDiv.style.padding = "0px 50px 50px 50px";
+outputContainerDiv.style.fontSize = "18px";
+// outputContainerDiv.style.border = "1px solid #ccc";
+// outputContainerDiv.style.borderRadius = "10px";
 
 const appendOutputVariableDiv = (variableName, variableValue) => {
     const outputVariableDiv = createVariableDiv(
